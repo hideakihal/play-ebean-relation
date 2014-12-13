@@ -1,0 +1,34 @@
+@(msg: String, form1: Form[Member])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Sample Page") {
+
+    @if(form1.hasErrors) {
+	<div class="container">
+		<div class="alert alert-danger">
+			入力内容に誤りがあります。確認して下さい。
+		</div>
+	</div>
+	}
+	
+	@form(routes.Contacts.create, 'class -> "form-horizontal") {
+    <div class="container">
+		<div class="well col-sm-offset-0 col-sm-12">
+			<fieldset>
+				<legend>@msg</legend>
+				@inputText(form1("name"))
+				@inputText(form1("mail"))
+				@inputText(form1("password"))
+			 	<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					    <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+						<button id="cancel" class="btn cancel" >Cancel</button>
+					</div>
+				</div>   
+			</fieldset>
+		</div>
+	</div>
+	}
+}

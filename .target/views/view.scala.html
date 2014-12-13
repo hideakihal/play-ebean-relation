@@ -1,0 +1,47 @@
+@(msg: String, id: Long, form1: Form[Message])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Sample Page") {
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/">Message</a></li>
+            <li><a href="/indexuser">Member</a></li>
+          </ul>
+        </div>
+        <div class="col-md-10 main">
+			<legend>@msg</legend>
+			<input type="hidden" value="@form1("id").value" name="id" />
+			<table class="table table-bordered table-striped">
+				<colgroup>
+					<col class="col-xs-2">
+					<col class="col-xs-10">
+	      		</colgroup>
+		        <tbody>
+		            <tr>
+		            	<td><strong>id</strong></td><td>@form1("id").value</td>
+		            </tr>
+		            <tr>
+		            	<td><strong>member</strong></td>
+		            	<td>
+        					@for(member <- form1.get().members){
+								@member.name
+        					}
+		            	</td>
+		            </tr>
+		            <tr>
+		            	<td><strong>mail</strong></td><td>@form1("mail").value</td>
+		            </tr>
+		            <tr>
+		            	<td><strong>message</strong></td><td>@form1("message").value</td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+	</div>
+	</div>
+}

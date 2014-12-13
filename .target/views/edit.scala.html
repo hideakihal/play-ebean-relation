@@ -1,0 +1,52 @@
+@(msg: String, id: Long, form1: Form[Message])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@main("Sample Page") {
+
+    @if(form1.hasErrors) {
+	<div class="container">
+		<div class="alert alert-danger">
+			入力内容に誤りがあります。確認して下さい。
+		</div>
+	</div>
+	}
+	
+	@form(routes.Application.update, 'class -> "form-horizontal") {
+    <div class="container">
+		<div class="well col-sm-offset-0 col-sm-12">
+			<fieldset>
+				<legend>@msg</legend>
+				<input type="hidden" value="@form1("id").value" name="id" />
+				<div class="form-group">
+					<label class="col-sm-2 control-label">member</label>
+					<div class="col-sm-10">
+						<select class="selectpicker" id="name" name="name[]" multiple>
+						 	@for(key <- Member.options.keySet()){
+						 		<option value="@Member.options.get(key)"
+						 		@for(member <- form1.get().members){
+						 			@if(Member.options.get(key) == member.name){
+								    	selected="true"
+						    		}
+						    	}
+							    >@Member.options.get(key)</option>
+						    }
+						</select>
+						<span class="help-block"></span>
+      					<span class="help-block">Required</span>
+					</div>
+				</div>
+				@inputText(form1("mail"))
+				@inputText(form1("message"))
+			 	<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+				    <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+					<button id="cancel" class="btn cancel" >Cancel</button>
+				</div>
+				</div>   
+			</fieldset>
+		</div>
+	</div>
+	}
+}

@@ -1,0 +1,35 @@
+@(hasPrev: Boolean, pageIndex: Int, hasNext: Boolean)
+
+    <ul class="pagination">
+      @if(hasPrev) {
+            <li class="prev">
+                <a href="?p=@(pageIndex - 1)">&larr;</a>
+            </li>
+        } else {
+            <li class="prev disabled">
+                <a>&larr;</a>
+            </li>
+        }
+
+        @for(pNumber <- pageIndex - 3 to pageIndex) {
+          @if(pNumber > 0) {
+            <li><a href="?p=@(pNumber - 1)">@pNumber</a></li>
+          }
+        }
+
+        <li class="disabled"><a>@(pageIndex + 1)</a></li>
+
+        @for(pNumber <- pageIndex + 2 to pageIndex + (5 - pageIndex) ) {
+           <li><a href="?p=@(pNumber - 1)">@pNumber</a></li>
+        }
+
+        @if(hasNext) {
+            <li class="next">
+                <a href="?p=@(pageIndex + 1)">&rarr;</a>
+            </li>
+        } else {
+            <li class="next disabled">
+                <a>&rarr;</a>
+            </li>
+        }
+    </ul>

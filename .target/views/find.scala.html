@@ -1,0 +1,68 @@
+@(msg: String, form1: Form[Application.FindForm], datas: List[Message])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Sample Page") {
+
+    @if(form1.hasErrors) {
+	<div class="container">
+		<div class="alert alert-danger">
+			入力内容に誤りがあります。確認して下さい。
+		</div>
+	</div>
+	}
+
+	@form(routes.Application.find, 'class -> "form-horizontal") {
+    <div class="container">
+		<div class="well col-sm-offset-0 col-sm-12">
+			<fieldset>
+				<legend>@msg</legend>
+				@inputText(form1("input"))
+			 	<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					    <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+						<button id="cancel" class="btn cancel" >Cancel</button>
+					</div>
+				</div>   
+			</fieldset>
+		</div>
+
+	    @if(datas == null) {
+	        <div class="well">
+	            <em>Nothing to display</em>
+	        </div>
+	    } else {
+			<table class="table table-bordered">
+		        <thead>
+		            <tr>
+		            <th>id</th>
+		            <th>member</th>
+		            <th>mail</th>
+		            <th>message</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            @for(data <- datas) {
+			            <tr>
+			                <td><a href="/data/@data.id">@data.id</a></td>
+			            	<td>
+	        					@for(member <- data.members){
+									@member.name
+	        					}
+			            	</td>
+			                <td>
+			                @if(data.mail != null) {
+			                    @data.mail.format("@")
+			                }
+			                </td>
+			                <td>@data.message</td>
+			            </tr>
+		            }
+		        </tbody>
+	    	</table>
+		}
+	</div>
+	}
+
+}

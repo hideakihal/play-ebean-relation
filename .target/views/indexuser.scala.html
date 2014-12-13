@@ -1,0 +1,68 @@
+@(msg: String, datas: com.avaje.ebean.Page[Member])
+
+@main("Sample Page") {
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/">Message</a></li>
+            <li><a href="/indexuser">Member</a></li>
+          </ul>
+        </div>
+        <div class="col-md-10 main">
+			<legend>@msg</legend>
+			<table class="table table-bordered">
+		        <thead>
+		            <tr>
+		            <th>id</th>
+		            <th>name</th>
+		            <th>messages</th>
+		            <th>mail</th>
+		            <th>password</th>
+		            <th>action</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            @for(data <- datas.getList) {
+			            <tr>
+			                <td><a href="/user/@data.id">@data.id</a></td>
+			                <td>@data.name</td>
+			            	<td>
+	        					@for(message <- data.messages){
+									@message.id
+	        					}
+			            	</td>
+			                <td>
+			                @if(data.mail != null) {
+			                    @data.mail.format("@")
+			                }
+			                </td>
+			                <td>@data.password</td>
+			                <td>
+				                <a href="/user/@data.id/edit">
+					                <button type="button" class="btn btn-default btn-sm">
+					                	<span class="glyphicon glyphicon-edit"></span> edit
+					                </button>
+				                </a>
+				                <a href="/user/@data.id/delete">
+					                <button type="button" class="btn btn-default btn-sm">
+					                	<span class="glyphicon glyphicon-remove"></span> delete
+					                </button>
+				                </a>
+			                </td>
+			            </tr>
+		            }
+		        </tbody>
+		    </table>
+			<a href="/adduser">
+				<button type="button" class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-plus"></span> add
+				</button>
+			</a>
+			<br>
+		    @pagination(datas.hasPrev, datas.getPageIndex, datas.hasNext)
+		</div>
+	</div>
+	</div>
+}
